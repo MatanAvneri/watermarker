@@ -47,7 +47,18 @@ const Canvas = ({ imageSrc, watermarkSrc, watermarkX = 0, watermarkY = 0, ...pro
   return (
     <div className='text-center'>
       <canvas className='m-auto' ref={canvasRef} {...props} />
-      <a download='image.png' href={canvasImageLink}>Download Image</a>
+      <div className="overflow-hidden relative inline-block">
+        <button className="bg-indigo-400 hover:bg-indigo-500 text-white font-bold py-2 px-4 w-full inline-flex items-center">
+          <svg className='transform rotate-180' fill="#FFF" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z" />
+          </svg>
+          <span className="ml-2">Download Image</span>
+        </button>
+        <a className='cursor-pointer absolute block opacity-0 top-0 left-0 bottom-0 right-0 w-full'
+          download='image.png'
+          href={canvasImageLink} />
+      </div>
     </div>
   )
 }
