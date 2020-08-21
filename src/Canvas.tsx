@@ -45,8 +45,8 @@ const Canvas = ({ imageSrc, watermarkSrc, watermarkX = 0, watermarkY = 0, ...pro
   }, [imageSrc, watermarkSrc, watermarkX, watermarkY])
 
   return (
-    <div>
-      <canvas ref={canvasRef} {...props} />
+    <div className='text-center'>
+      <canvas className='m-auto' ref={canvasRef} {...props} />
       <a download='image.png' href={canvasImageLink}>Download Image</a>
     </div>
   )
