@@ -3,37 +3,44 @@ import React, { HTMLAttributes, useRef, useEffect } from 'react'
 
 interface CanvasProps extends HTMLAttributes<HTMLCanvasElement> {
   imageSrc?: string,
-  watermarkSrc?: string
+  watermarkSrc?: string,
+  watermarkX?: number,
+  watermarkY?: number,
 }
 
-const Canvas = ({ imageSrc, watermarkSrc, ...props }: CanvasProps) => {
+const Canvas = ({ imageSrc, watermarkSrc, watermarkX = 0, watermarkY = 0, ...props }: CanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const imageLink = canvasRef.current?.toDataURL('image/png')
-  useEffect(() => {
-    if (imageSrc) {
-      const canvas = canvasRef.current
-      if (canvas) {
-        const context = canvas.getContext('2d')
-        if (context) {
-          const mainImage = new Image();
-          mainImage.src = imageSrc;
-          mainImage.onload = () => {
+  const drawImage = (imageSrc?: string, offsetX: number = 0, offsetY: number = 0, clearCanvas: boolean = false) => {
+    const canvas = canvasRef.current
+    if (canvas && imageSrc) {
+      const context = canvas.getContext('2d')
+      if (context) {
+        const image = new Image();
+        image.src = imageSrc;
+        image.onload = () => {
+          if (clearCanvas) {
             context.clearRect(0, 0, canvas.width, canvas.height);
-            canvas.width = mainImage.width;
-            canvas.height = mainImage.height;
-            context.drawImage(mainImage, 0, 0);
-            if (watermarkSrc) {
-              const watermarkImage = new Image();
-              watermarkImage.src = watermarkSrc;
-              watermarkImage.onload = () => {
-                context.drawImage(watermarkImage, 50, 50);
-              }
-            }
+            canvas.width = image.width;
+            canvas.height = image.height;
           }
+          context.drawImage(image, offsetX, offsetY);
+        }
+        if (image.complete) {
+          if (clearCanvas) {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            canvas.width = image.width;
+            canvas.height = image.height;
+          }
+          context.drawImage(image, offsetX, offsetY);
         }
       }
     }
-  }, [imageSrc, watermarkSrc])
+  }
+  useEffect(() => {
+    drawImage(imageSrc, 0, 0, true);
+    drawImage(watermarkSrc, watermarkX, watermarkY);
+  }, [imageSrc, watermarkSrc, watermarkX, watermarkY])
 
   return (
     <div>

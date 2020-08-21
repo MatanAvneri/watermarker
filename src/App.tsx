@@ -8,6 +8,8 @@ const WATERMARK_FILE_ID = 'watermark'
 function App() {
   const [file, setFile] = useState('')
   const [watermark, setWatermark] = useState('')
+  const [watermarkX, setWatermarkX] = useState(0)
+  const [watermarkY, setWatermarkY] = useState(0)
 
   return (
     <div className="App">
@@ -23,9 +25,11 @@ function App() {
           setWatermark(URL.createObjectURL(event.target.files[0]))
         }
       }} />
-      <div>
-        <Canvas imageSrc={file} watermarkSrc={watermark} />
-      </div>
+      <label>Watermark X position</label>
+      <input type='number' value={watermarkX} onChange={(e) => setWatermarkX(parseInt(e.target.value))} />
+      <label>Watermark Y position</label>
+      <input type='number' value={watermarkY} onChange={(e) => setWatermarkY(parseInt(e.target.value))} />
+      <Canvas watermarkX={watermarkX} watermarkY={watermarkY} imageSrc={file} watermarkSrc={watermark} />
     </div>
   );
 }
