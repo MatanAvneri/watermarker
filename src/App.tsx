@@ -57,7 +57,7 @@ function App() {
       <NumberInput value={watermarkX} onChange={(e) => setWatermarkX(parseInt(e.currentTarget.value))} />
       <label>Watermark Y position</label>
       <NumberInput value={watermarkY} onChange={(e) => setWatermarkY(parseInt(e.currentTarget.value))} />
-      <Canvas watermarkX={watermarkX} watermarkY={watermarkY} imageSrc={file} watermarkSrc={watermark} />
+      <Canvas setWatermarkX={setWatermarkX} setWatermarkY={setWatermarkY} watermarkX={watermarkX} watermarkY={watermarkY} imageSrc={file} watermarkSrc={watermark} />
     </div>
   );
 }
